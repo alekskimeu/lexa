@@ -58,6 +58,33 @@ export default function Home() {
         await (document as any).fonts.ready;
       }
 
+      watermark = document.createElement("div");
+      watermark.innerText = "© stackdmp";
+
+      Object.assign(watermark.style, {
+        position: "absolute",
+        bottom: "50px",
+        right: "50px",
+        fontSize: "16px",
+        color: "rgba(255, 255, 255, 0.7)",
+        textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
+        pointerEvents: "none",
+        zIndex: "9999",
+        fontFamily: "Arial, sans-serif",
+        fontWeight: "500",
+      });
+
+      // Store original position style
+      const originalPosition = ref.current.style.position;
+
+      // Set relative positioning if not already set
+      if (!originalPosition || originalPosition === "static") {
+        ref.current.style.position = "relative";
+      }
+
+      // Add watermark to original element
+      ref.current.appendChild(watermark);
+
       // Export with watermark
       const dataUrl = await toPng(ref.current, {
         cacheBust: true,
